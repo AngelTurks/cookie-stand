@@ -40,14 +40,14 @@ text-decoration: dashed;
   justify-content: center;
 }
 
-table {
+#table {
   border-collapse: collapse;
   border: 1px solid black;
   width: 80%; 
   margin: 20px auto; 
 }
 
-th, td {
+th, td{
   border: 1px solid black;
   padding: 8px;
   text-align: center;

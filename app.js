@@ -1,6 +1,7 @@
 'use strict';
 
 const hourSection = document.getElementById('hours');
+const tableContainer = document.getElementById('table-container'); // Assuming you have a container for the table in your HTML
 
 function CookieSales(name, minCust, maxCust, avgCookieSale) {
   this.name = name;
@@ -8,10 +9,11 @@ function CookieSales(name, minCust, maxCust, avgCookieSale) {
   this.maxCust = maxCust;
   this.avgCookieSale = avgCookieSale;
   this.cookiePerHour = [];
+  this.totalCookies = 0;
 }
 
 CookieSales.prototype.getRandomCust = function () {
-return Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust;
+  return Math.floor(Math.random() * (this.maxCust - this.minCust + 1)) + this.minCust;
 };
 
 CookieSales.prototype.calculateCookiePerHour = function () {
@@ -19,38 +21,70 @@ CookieSales.prototype.calculateCookiePerHour = function () {
     const cust = this.getRandomCust();
     const cookieSold = Math.round(cust * this.avgCookieSale);
     this.cookiePerHour.push(cookieSold);
+    this.totalCookies += cookieSold;
   }
 };
 
-CookieSales.prototype.displaySales = function () {
-  const salesList = document.createElement('ul');
-  salesList.innerHTML = `<strong>${this.name}</strong>`;
-  let totalCookies = 0;
+CookieSales.prototype.render = function () {
+  const tableRow = document.createElement('tr');
+  tableRow.innerHTML = `<td>${this.name}</td>`;
+  
   for (let hour = 6; hour <= 20; hour++) {
-    const listItems = document.createElement('li');
-    let displayHour;
+    tableRow.innerHTML += `<td>${this.cookiePerHour[hour - 6]}</td>`;
+  }
 
-    if (hour <= 12) {
-      displayHour = `${hour}am`;
-    } else if (hour === 12) {
-      displayHour = `${hour}pm`;
-    } else {
-      displayHour = `${hour - 12}pm`;
-    }
+  tableRow.innerHTML += `<td>${this.totalCookies}</td>`;
 
-    listItems.textContent = `${displayHour}: ${this.cookiePerHour[hour - 6]} cookies`;
-    salesList.appendChild(listItems);
-    totalCookies += this.cookiePerHour[hour - 6];
+  tableContainer.appendChild(tableRow);
+};
+
+// Create the header row
+function createHeaderRow() {
+  const tableHeader = document.createElement('tr');
+  tableHeader.innerHTML = '<th>Location</th>';
+  
+  for (let hour = 6; hour <= 20; hour++) {
+    const displayHour = hour <= 12 ? `${hour}am` : `${hour - 12}pm`;
+    tableHeader.innerHTML += `<th>${displayHour}</th>`;
   }
   
-  const totalItems = document.createElement('li');
-  totalItems.innerHTML = `<strong>Total: ${totalCookies} cookies</strong>`;
-  salesList.appendChild(totalItems);
+  tableHeader.innerHTML += '<th>Daily Location Total</th>';
+  tableContainer.appendChild(tableHeader);
+}
 
-hourSection.appendChild(salesList);
-};
+// Create the footer row with hourly and grand totals across all stores
+function createFooterRow(locations) {
+  const totalsRow = document.createElement('tr');
+  totalsRow.innerHTML = '<td>Totals</td>';
+  let hourlyTotal = Array(15).fill(0);
 
-const seattle = new CookieSales('seattle', 23, 65, 6.3);
+  for (let i = 0; i < locations.length; i++) {
+    const location = locations[i];
+    for (let j = 0; j < 15; j++) {
+      hourlyTotal[j] += location.cookiePerHour[j];
+    }
+  }
 
-seattle.calculateCookiePerHour();
-seattle.displaySales();
+  for (let i = 0; i < 15; i++) {
+    totalsRow.innerHTML += `<td>${hourlyTotal[i]}</td>`;
+  }
+
+  tableContainer.appendChild(totalsRow);
+}
+
+const locations = [
+  new CookieSales('Seattle', 23, 65, 6.3),
+  new CookieSales('Tokyo', 3, 24, 1.2),
+  new CookieSales('Dubai', 11, 38, 3.7),
+  new CookieSales('Paris', 20, 38, 2.3),
+  new CookieSales('Lima', 2, 16, 4.6)
+];
+
+createHeaderRow();
+
+locations.forEach(location => {
+  location.calculateCookiePerHour();
+  location.render();
+});
+
+createFooterRow(locations);
