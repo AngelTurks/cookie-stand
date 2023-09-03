@@ -1,7 +1,7 @@
 'use strict';
 
 const hourSection = document.getElementById('hours');
-const tableContainer = document.getElementById('table-container'); // Assuming you have a container for the table in your HTML
+const tableContainer = document.getElementById('table-container'); 
 
 function CookieSales(name, minCust, maxCust, avgCookieSale) {
   this.name = name;
@@ -38,7 +38,7 @@ CookieSales.prototype.render = function () {
   tableContainer.appendChild(tableRow);
 };
 
-// Create the header row
+
 function createHeaderRow() {
   const tableHeader = document.createElement('tr');
   tableHeader.innerHTML = '<th>Location</th>';
@@ -50,26 +50,6 @@ function createHeaderRow() {
   
   tableHeader.innerHTML += '<th>Daily Location Total</th>';
   tableContainer.appendChild(tableHeader);
-}
-
-// Create the footer row with hourly and grand totals across all stores
-function createFooterRow(locations) {
-  const totalsRow = document.createElement('tr');
-  totalsRow.innerHTML = '<td>Totals</td>';
-  let hourlyTotal = Array(15).fill(0);
-
-  for (let i = 0; i < locations.length; i++) {
-    const location = locations[i];
-    for (let j = 0; j < 15; j++) {
-      hourlyTotal[j] += location.cookiePerHour[j];
-    }
-  }
-
-  for (let i = 0; i < 15; i++) {
-    totalsRow.innerHTML += `<td>${hourlyTotal[i]}</td>`;
-  }
-
-  tableContainer.appendChild(totalsRow);
 }
 
 const locations = [

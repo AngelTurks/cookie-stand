@@ -35,16 +35,11 @@ height: 30px;
 font-size: 25px;
 text-decoration: dashed;
 }
-.table {
-  display: flex;
-  justify-content: center;
-}
-
-#table {
+#table-contents {
   border-collapse: collapse;
   border: 1px solid black;
   width: 80%; 
-  margin: 20px auto; 
+  margin: 20px auto;
 }
 
 th, td{
