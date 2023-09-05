@@ -1,24 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Cookie Stand</title>
-<link rel="stylesheet" href="styles.css">
-</head>
-<body>
-<section id="nav2">
-<nav class="navbar">
-<ul>
-<li><a href="index.html" id="Home">Home</a></li>
-<li><a href="#" id="salesdata">Sales</a></li>
-</ul>
-</nav>
-</section>
-<section class="image">
-<img src="https://codefellows.github.io/code-201-guide/curriculum/class-06/lab/assets/salmon.png" alt="Pat Salmon Logo" class="logo">
-</section>
-<section id="salesdata">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cookie Stand</title>
+    <link rel="stylesheet" href="styles.css">
+  </head>
+  <body>
+    <section id="nav2">
+      <nav class="navbar">
+        <ul>
+          <li><a href="index.html" id="Home">Home</a></li>
+          <li><a href="#" id="salesdata">Sales</a></li>
+        </ul>
+      </nav>
+    </section>
+    <section class="image">
+      <img src="https://codefellows.github.io/code-201-guide/curriculum/class-06/lab/assets/salmon.png" alt="Pat Salmon Logo" class="logo">
+      <section>
+        <form id="cookieForm">
+          <fieldset>
+            <legend>Add New Cookie Stand</legend>
+            <label for="locationName">Location Name:</label>
+            <input type="text" id="locationName" name="locationName"  placeholder="Name">
+
+            <label for="minCustomers">Minimum Customers:</label>
+            <input type="number" id="minCustomers" name="minCustomers" required>
+
+            <label for="maxCustomers">Maximum Customers:</label>
+            <input type="number" id="maxCustomers" name="maxCustomers" required>
+
+            <label for="avgCookies">Average Cookies Per Sale:</label>
+            <input type="number" id="avgCookies" name="avgCookies" step="0.1" required>
+
+            <button type="submit">Add Cookie Stand</button>
+          </fieldset>
+        </form>
+      </section>
+    </section>
+    <section id="salesdata">
 <h1>Sale data</h1>
 </section>
 <section id="hours">

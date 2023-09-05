@@ -67,4 +67,40 @@ locations.forEach(location => {
   location.render();
 });
 
-createFooterRow(locations);
+function createFooterRow(locations) {
+  const totalsRow = document.createElement('tr');
+  totalsRow.innerHTML = '<th>Location</th>';
+  let hourlyTotal = Array(15).fill(0);
+  
+  for (let i = 0; i < locations.length; i++) {
+    const location = locations[i];
+    for (let j = 0; j < 15; j++){
+      hourlyTotal[j] += location.cookiePerHour[j];
+    }
+  }
+
+  for (let i = 0; i < 15; i++) {
+    totalsRow.innerHTML += `<td>${hourlyTotal[i]}</td>`;
+  }
+
+  tableContainer.appendChild(totalsRow)
+}
+
+  const form = document.getElementById('cookieForm');
+        form.addEventListener('submit', function (e) {
+          e.preventDefault();
+
+          const locationName = document.getElementById('locationName').value;
+          const minCustomers = parseInt(document.getElementById('minCustomers').value);
+          const maxCustomers = parseInt(document.getElementById('maxCustomers').value);
+          const avgCookies = parseFloat(document.getElementById('avgCookies').value);
+
+          const newLocation = new CookieSales(locationName, minCustomers, maxCustomers, avgCookies);
+
+          newLocation.calculateCookiePerHour();
+          newLocation.render();
+
+          location.push(newLocation);
+
+          createFooterRow([...locations, newLocation]);
+        });
